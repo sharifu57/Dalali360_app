@@ -4,7 +4,7 @@
             "outputFile": "com.example.dalali360_app-mergeDebugResources-18:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "E:\\Projects\\dalali360_app\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "E:\\Projects\\Dalali360Project\\Dalali360_app\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

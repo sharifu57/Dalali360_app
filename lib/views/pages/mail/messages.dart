@@ -1,46 +1,55 @@
-import 'package:dalali360_app/controllers/homeController.dart';
-import 'package:dalali360_app/controllers/locationController.dart';
+import 'package:dalali360_app/views/pages/mail/chats.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
-class Messages extends GetView<HomeController> {
-  Messages({super.key});
-  final box = GetStorage();
-  LocationController locationController = Get.put(LocationController());
+class Messages extends StatefulWidget {
+  const Messages({super.key});
+
+  @override
+  State<Messages> createState() => _MessagesState();
+}
+
+class _MessagesState extends State<Messages>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return box.read("token") == null
-        ? Container(
-            child: Center(
-              child: Text("Login First"),
-            ),
-          )
-        : Scaffold(
-            appBar: AppBar(
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
               backgroundColor: Color(0xFF162945),
-              title: Center(
+              title: Container(
                 child: Text("Chats"),
               ),
-              actions: [
-                Container(
-                  child: Text("."),
-                )
-              ],
-            ),
-            body: Container(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                children: [
-                  Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: SizedBox(
-                        child: Card(),
-                      )),
+              pinned: true,
+              floating: true,
+              forceElevated: innerBoxIsScrolled,
+              bottom: TabBar(
+                tabs: <Tab>[
+                  new Tab(
+                    text: "Messages",
+                  ),
+                  new Tab(
+                    text: "Notify",
+                  )
                 ],
+                controller: _tabController,
               ),
-            ),
-          );
+            )
+          ];
+        },
+        body: new TabBarView(
+            controller: _tabController,
+            children: <Widget>[Chat(), Container()]),
+      ),
+    );
   }
 }

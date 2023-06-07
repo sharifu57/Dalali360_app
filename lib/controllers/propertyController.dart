@@ -171,54 +171,16 @@ class PropertyController extends GetxController {
         image,
       );
     }
-    // var propertyCreate = jsonEncode({
-    //   "name": formData['name'],
-    //   "price": formData['price'],
-    //   "description": formData['description'],
-    //   // "luku": formData['luku'],
-    //   "ward": formData['ward'],
-    //   "category": formData['category'],
-    //   "image": formData['image'],
-    // });
-
-    // print(propertyCreate);
-
-    //   try {
-    //     isLoading = true.obs;
-
-    //     var response = await Dio().post(
-    //       "${config['apiBaseUrl']!}/properties",
-    //       data: propertyCreate,
-    //     );
-
-    //     if (response.statusCode == 201) {
-    //       print("---success");
-
-    //       Get.to(() => Screen());
-    //       Get.snackbar('Suceess: ' 'User Logged In successfully', '',
-    //           snackPosition: SnackPosition.BOTTOM,
-    //           backgroundColor: Colors.green,
-    //           colorText: Colors.white);
-    //     } else {
-    //       Get.snackbar('Failed: ' '${response.statusMessage}', '',
-    //           snackPosition: SnackPosition.BOTTOM,
-    //           backgroundColor: Colors.red,
-    //           colorText: Colors.white);
-    //     }
-    //   } catch (e) {
-    //     isCreatingProperty = false.obs;
-    //   }
-    // } else {
-    //   isCreatingProperty = false.obs;
-    // }
   }
 
   Future getFeatured() async {
     var response = await Dio().get("${config['apiBaseUrl']!}/featureds");
 
-    if (response.data != null) {
-      for (var featured in response.data['data']) {
-        featureds.add(Property.fromJson(featured));
+    if (response.statusCode == 200) {
+      if (response.data != null) {
+        for (var featured in response.data['data']) {
+          featureds.add(Property.fromJson(featured));
+        }
       }
     }
   }
@@ -231,7 +193,6 @@ class PropertyController extends GetxController {
           .get("${config['apiBaseUrl']!}/images_by_property_id/" "$propertyId");
 
       if (response.data != null) {
-        print(response.statusCode);
         if (response.statusCode == 200) {
           for (var image in response.data['data']) {
             images.add(Media.fromJson(image));
@@ -239,7 +200,6 @@ class PropertyController extends GetxController {
         }
       }
     } catch (e) {
-      print(e);
     }
   }
 
